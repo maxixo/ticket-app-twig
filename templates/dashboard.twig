@@ -1,5 +1,4 @@
 {% extends "layout.twig" %}
-
 {% block title %}Dashboard - TicketFlow{% endblock %}
 
 {% block content %}
@@ -25,7 +24,24 @@
     <h2 style="font-size:2rem;font-weight:700;margin-top:2rem;margin-bottom:2rem;color:#1f2937;">Dashboard</h2>
 
     <!-- Stats Section -->
-    <div id="stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-bottom:2rem;"></div>
+    <div id="stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-bottom:2rem;">
+      <div style="background:white;padding:1.5rem;border-radius:1rem;box-shadow:0 2px 4px rgba(0,0,0,0.1);text-align:center;">
+        <p style="color:#6b7280;font-size:0.875rem;margin-bottom:0.25rem;">Total Tickets</p>
+        <h2 style="font-size:2rem;font-weight:700;color:#2563eb;">{{ total }}</h2>
+      </div>
+      <div style="background:white;padding:1.5rem;border-radius:1rem;box-shadow:0 2px 4px rgba(0,0,0,0.1);text-align:center;">
+        <p style="color:#6b7280;font-size:0.875rem;margin-bottom:0.25rem;">Open</p>
+        <h2 style="font-size:2rem;font-weight:700;color:#16a34a;">{{ open }}</h2>
+      </div>
+      <div style="background:white;padding:1.5rem;border-radius:1rem;box-shadow:0 2px 4px rgba(0,0,0,0.1);text-align:center;">
+        <p style="color:#6b7280;font-size:0.875rem;margin-bottom:0.25rem;">In Progress</p>
+        <h2 style="font-size:2rem;font-weight:700;color:#ca8a04;">{{ inProgress }}</h2>
+      </div>
+      <div style="background:white;padding:1.5rem;border-radius:1rem;box-shadow:0 2px 4px rgba(0,0,0,0.1);text-align:center;">
+        <p style="color:#6b7280;font-size:0.875rem;margin-bottom:0.25rem;">Closed</p>
+        <h2 style="font-size:2rem;font-weight:700;color:#4b5563;">{{ closed }}</h2>
+      </div>
+    </div>
 
     <!-- Completion Rate + Priority Breakdown -->
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:2rem;">
@@ -35,173 +51,75 @@
         <h3 style="font-size:1.125rem;font-weight:600;color:#1f2937;margin-bottom:1rem;">Completion Rate</h3>
         <div style="position:relative;">
           <div style="margin-bottom:0.5rem;display:flex;justify-content:space-between;align-items:center;">
-            <span id="completion-rate-label" style="font-size:0.75rem;font-weight:600;color:#2563eb;">0% Complete</span>
+            <span id="completion-rate-label" style="font-size:0.75rem;font-weight:600;color:#2563eb;">{{ completionRate }}% Complete</span>
           </div>
           <div style="overflow:hidden;height:1rem;border-radius:9999px;background-color:#e5e7eb;margin-bottom:1rem;">
-            <div id="completion-bar" style="height:100%;width:0%;background:linear-gradient(to right,#3b82f6,#2563eb);transition:width 0.5s ease;"></div>
+            <div id="completion-bar" style="height:100%;width:{{ completionRate }}%;background:linear-gradient(to right,#3b82f6,#2563eb);transition:width 0.5s ease;"></div>
           </div>
-          <p id="completion-summary" style="font-size:0.875rem;color:#4b5563;">No tickets completed yet.</p>
+          <p id="completion-summary" style="font-size:0.875rem;color:#4b5563;">
+            {% if total > 0 %}
+              {{ closed }} of {{ total }} tickets completed
+            {% else %}
+              No tickets available.
+            {% endif %}
+          </p>
         </div>
       </div>
 
       <!-- Priority Breakdown -->
       <div style="background:white;padding:1.5rem;border-radius:1rem;box-shadow:0 4px 8px rgba(0,0,0,0.1);">
         <h3 style="font-size:1.125rem;font-weight:600;color:#1f2937;margin-bottom:1rem;">Priority Breakdown</h3>
-        <div id="priority-breakdown"></div>
+        <div id="priority-breakdown">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+            <span style="font-size:0.875rem;color:#4b5563;">High Priority</span>
+            <span style="padding:0.25rem 0.75rem;background-color:#fee2e2;color:#dc2626;border-radius:9999px;font-size:0.75rem;font-weight:600;">{{ priorityStats.high }}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+            <span style="font-size:0.875rem;color:#4b5563;">Medium Priority</span>
+            <span style="padding:0.25rem 0.75rem;background-color:#fef9c3;color:#a16207;border-radius:9999px;font-size:0.75rem;font-weight:600;">{{ priorityStats.medium }}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:0.875rem;color:#4b5563;">Low Priority</span>
+            <span style="padding:0.25rem 0.75rem;background-color:#dcfce7;color:#15803d;border-radius:9999px;font-size:0.75rem;font-weight:600;">{{ priorityStats.low }}</span>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Recent Tickets -->
-    <div id="recent-tickets" style="background:white;padding:1.5rem;border-radius:1rem;box-shadow:0 4px 8px rgba(0,0,0,0.1);margin-bottom:2rem;display:none;">
+    {% if tickets|length > 0 %}
+    <div id="recent-tickets" style="background:white;padding:1.5rem;border-radius:1rem;box-shadow:0 4px 8px rgba(0,0,0,0.1);margin-bottom:2rem;">
       <h3 style="font-size:1.125rem;font-weight:600;color:#1f2937;margin-bottom:1rem;">Recent Tickets</h3>
-      <div id="ticket-list"></div>
+      <div id="ticket-list">
+        {% for t in tickets|slice(-5, 5)|reverse %}
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem 1rem;background-color:#f9fafb;border-radius:0.75rem;margin-bottom:0.5rem;">
+          <div>
+            <p style="font-weight:600;color:#1f2937;">{{ t.title }}</p>
+            <p style="font-size:0.875rem;color:#6b7280;">Priority: {{ t.priority }}</p>
+          </div>
+          <span style="padding:0.25rem 0.75rem;border-radius:9999px;font-size:0.75rem;font-weight:600;
+            {% if t.status == 'open' %}background-color:#dcfce7;color:#15803d;
+            {% elseif t.status == 'in_progress' %}background-color:#fef9c3;color:#a16207;
+            {% else %}background-color:#e5e7eb;color:#374151;{% endif %}">
+            {{ t.status|replace({'_':' '}) }}
+          </span>
+        </div>
+        {% endfor %}
+      </div>
     </div>
+    {% endif %}
 
-    <!-- Manage Tickets Button -->
-    <a href="/ticket_list" 
+    <!-- Manage Buttons -->
+    <a href="/tickets" 
        style="background-color:#2563eb;color:white;padding:0.75rem 1.5rem;border-radius:0.5rem;font-weight:600;text-decoration:none;display:inline-block;"
        onmouseover="this.style.backgroundColor='#1d4ed8';"
        onmouseout="this.style.backgroundColor='#2563eb';">
        Manage Tickets
     </a>
     <a href="/tickets/create"
-   style="background-color:#2563eb;color:white;padding:0.75rem 1.5rem;border-radius:0.5rem;font-weight:600;text-decoration:none;display:inline-block;">
-   + New Ticket
-  </a>
+       style="background-color:#2563eb;color:white;padding:0.75rem 1.5rem;border-radius:0.5rem;font-weight:600;text-decoration:none;display:inline-block;margin-left:1rem;">
+       + New Ticket
+    </a>
   </div>
 </div>
-
-<!-- Inline Dashboard JS -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
-
-  const statsContainer = document.getElementById("stats");
-  const completionBar = document.getElementById("completion-bar");
-  const completionLabel = document.getElementById("completion-rate-label");
-  const completionSummary = document.getElementById("completion-summary");
-  const priorityContainer = document.getElementById("priority-breakdown");
-  const ticketList = document.getElementById("ticket-list");
-  const recentSection = document.getElementById("recent-tickets");
-
-  function renderDashboard() {
-    tickets = JSON.parse(localStorage.getItem("tickets")) || [];
-    const total = tickets.length;
-    const open = tickets.filter(t => t.status === "open").length;
-    const inProgress = tickets.filter(t => t.status === "in_progress").length;
-    const closed = tickets.filter(t => t.status === "closed").length;
-
-    // Stats Cards
-    statsContainer.innerHTML = `
-      ${renderCard("Total Tickets", total, "#2563eb")}
-      ${renderCard("Open", open, "#16a34a")}
-      ${renderCard("In Progress", inProgress, "#ca8a04")}
-      ${renderCard("Closed", closed, "#4b5563")}
-    `;
-
-    // Completion Rate
-    const completionRate = total > 0 ? Math.round((closed / total) * 100) : 0;
-    completionBar.style.width = completionRate + "%";
-    completionLabel.textContent = completionRate + "% Complete";
-    completionSummary.textContent = total > 0 ? `${closed} of ${total} tickets completed` : "No tickets available.";
-
-    // Priority Breakdown
-    const priorityStats = {
-      high: tickets.filter(t => t.priority === "high").length,
-      medium: tickets.filter(t => t.priority === "medium").length,
-      low: tickets.filter(t => t.priority === "low").length
-    };
-
-    priorityContainer.innerHTML = `
-      ${renderPriority("High Priority", priorityStats.high, "#fee2e2", "#dc2626")}
-      ${renderPriority("Medium Priority", priorityStats.medium, "#fef9c3", "#a16207")}
-      ${renderPriority("Low Priority", priorityStats.low, "#dcfce7", "#15803d")}
-    `;
-
-    // Recent Tickets
-    if (tickets.length > 0) {
-      recentSection.style.display = "block";
-      const recentTickets = tickets.slice(-5).reverse();
-      ticketList.innerHTML = recentTickets.map(t => renderTicket(t)).join("");
-      attachEventListeners();
-    } else {
-      recentSection.style.display = "none";
-    }
-  }
-
-  function renderCard(label, value, color) {
-    return `
-      <div style="background:white;padding:1.5rem;border-radius:1rem;box-shadow:0 2px 4px rgba(0,0,0,0.1);text-align:center;">
-        <p style="color:#6b7280;font-size:0.875rem;margin-bottom:0.25rem;">${label}</p>
-        <h2 style="font-size:2rem;font-weight:700;color:${color};">${value}</h2>
-      </div>`;
-  }
-
-  function renderPriority(label, count, bg, color) {
-    return `
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
-        <span style="font-size:0.875rem;color:#4b5563;">${label}</span>
-        <span style="padding:0.25rem 0.75rem;background-color:${bg};color:${color};border-radius:9999px;font-size:0.75rem;font-weight:600;">${count}</span>
-      </div>`;
-  }
-
-  function renderTicket(t) {
-    const statusStyles = {
-      open: "background-color:#dcfce7;color:#15803d;",
-      in_progress: "background-color:#fef9c3;color:#a16207;",
-      closed: "background-color:#e5e7eb;color:#374151;"
-    };
-    return `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem 1rem;background-color:#f9fafb;border-radius:0.75rem;margin-bottom:0.5rem;">
-        <div>
-          <p style="font-weight:600;color:#1f2937;">${t.title}</p>
-          <p style="font-size:0.875rem;color:#6b7280;">Priority: ${t.priority}</p>
-        </div>
-        <div style="display:flex;align-items:center;gap:0.75rem;">
-          <span style="padding:0.25rem 0.75rem;border-radius:9999px;font-size:0.75rem;font-weight:600;${statusStyles[t.status]}">
-            ${t.status.replace("_", " ")}
-          </span>
-          <button data-id="${t.id}" style="color:#ca8a04;font-size:1rem;border:none;background:none;cursor:pointer;">✏️</button>
-          <button data-id="${t.id}" style="color:#dc2626;font-size:1rem;border:none;background:none;cursor:pointer;">🗑️</button>
-        </div>
-      </div>`;
-  }
-
-  function deleteTicket(id) {
-    tickets = tickets.filter(t => String(t.id) !== String(id));
-    localStorage.setItem("tickets", JSON.stringify(tickets));
-    renderDashboard();
-  }
-
-  function editTicket(id) {
-    const allTickets = JSON.parse(localStorage.getItem("tickets")) || [];
-    const ticket = allTickets.find(t => String(t.id) === String(id));
-    if (!ticket) return alert("Ticket not found!");
-
-    const newTitle = prompt("Edit title:", ticket.title) || ticket.title;
-    const newPriority = prompt("Edit priority (high, medium, low):", ticket.priority) || ticket.priority;
-    const newStatus = prompt("Edit status (open, in_progress, closed):", ticket.status) || ticket.status;
-
-    const updatedTickets = allTickets.map(t =>
-      String(t.id) === String(id)
-        ? { ...t, title: newTitle.trim(), priority: newPriority.trim(), status: newStatus.trim() }
-        : t
-    );
-    localStorage.setItem("tickets", JSON.stringify(updatedTickets));
-    renderDashboard();
-  }
-
-  function attachEventListeners() {
-    document.querySelectorAll("button[data-id]").forEach(btn => {
-      btn.onclick = e => {
-        const id = e.target.dataset.id;
-        if (e.target.textContent.includes("🗑️")) deleteTicket(id);
-        else editTicket(id);
-      };
-    });
-  }
-
-  renderDashboard();
-});
-</script>
 {% endblock %}

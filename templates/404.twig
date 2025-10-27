@@ -1,7 +1,65 @@
-{% extends "layout.twig" %}
-
-{% block title %}Page Not Found - TicketFlow{% endblock %}
-
-{% block content %}
-<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(to bottom right,#2563eb,#7c3aed);color:white;">
-  <div style="background:white;color:#1f2937;padding:3rem 2rem;border-radius:1rem;box-shadow:0 8px 16px rgba(0,0,0,0.15);max-width:480px;width:90%;text-align:center;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Page Not Found - TicketFlow</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to bottom right, #2563eb, #7c3aed);
+      font-family: Arial, Helvetica, sans-serif;
+      color: #1f2937;
+    }
+    .card {
+      background: white;
+      padding: 3rem 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      max-width: 480px;
+      width: 90%;
+    }
+    h1 {
+      font-size: 5rem;
+      font-weight: bold;
+      color: #ef4444;
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1rem;
+      color: #4b5563;
+      margin-bottom: 2rem;
+    }
+    a {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 0.5rem;
+      transition: background 0.3s;
+    }
+    a:hover {
+      background: #1d4ed8;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>404</h1>
+    <h2>Page Not Found</h2>
+    <p>Oops! The page you’re looking for doesn’t exist or has been moved.</p>
+    <a href="/">Go Back Home</a>
+  </div>
+</body>
+</html>

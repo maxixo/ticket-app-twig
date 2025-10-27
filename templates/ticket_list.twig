@@ -37,4 +37,21 @@
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <span style="font-size:0.75rem;color:#6b7280;">Priority: {{ ticket.priority }}</span>
           <div style="display:flex;gap:0.75rem;">
-            <a href="/tickets/{{ ticket.id }}/edit" style="color:#2563eb;text-decoration:none;font-w
+      <a href="/tickets/{{ ticket.id }}/edit"
+      style="color:#2563eb;text-decoration:none;font-weight:600;"
+      onmouseover="this.style.color='#1d4ed8';"
+      onmouseout="this.style.color='#2563eb';">
+      ✏️ Edit
+    </a>    
+     <a href="/tickets/{{ ticket.id }}/delete" style="color:#dc2626;text-decoration:none;font-weight:600;" onclick="return confirm('Delete this ticket?');">🗑️ Delete</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="text-align:center;color:#6b7280;">No tickets found. <a href="/tickets/create" style="color:#2563eb;">Create one</a>.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

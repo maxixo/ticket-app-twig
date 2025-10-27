@@ -15,6 +15,12 @@
         </div>
         {% endif %}
 
+        {% if success %}
+        <div style="margin-bottom: 1rem; padding: 0.75rem; background-color: #e0f2fe; color: #0369a1; border-radius: 0.5rem;">
+            🎉 Account created successfully! Please log in to continue.
+        </div>
+        {% endif %}
+
         {% if errors.general %}
         <div style="margin-bottom: 1rem; padding: 0.75rem; background-color: #fee2e2; color: #991b1b; border-radius: 0.5rem;">
             {{ errors.general }}
@@ -28,6 +34,8 @@
                     type="email"
                     name="email"
                     required
+                    value="{{ old.email|default('') }}"
+                    placeholder="Enter your email"
                     style="width: 100%; padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; outline: none; font-size: 1rem; transition: all 0.2s;"
                     onfocus="this.style.borderColor='#2563eb'; this.style.boxShadow='0 0 0 3px rgba(37,99,235,0.3)';"
                     onblur="this.style.borderColor='#d1d5db'; this.style.boxShadow='none';"
@@ -43,6 +51,7 @@
                     type="password"
                     name="password"
                     required
+                    placeholder="Enter your password"
                     style="width: 100%; padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; outline: none; font-size: 1rem; transition: all 0.2s;"
                     onfocus="this.style.borderColor='#2563eb'; this.style.boxShadow='0 0 0 3px rgba(37,99,235,0.3)';"
                     onblur="this.style.borderColor='#d1d5db'; this.style.boxShadow='none';"
@@ -58,7 +67,7 @@
                 onmouseover="this.style.backgroundColor='#1d4ed8';"
                 onmouseout="this.style.backgroundColor='#2563eb';"
             >
-                Login
+                Sign In
             </button>
         </form>
 
