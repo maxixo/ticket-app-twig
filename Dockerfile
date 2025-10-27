@@ -1,39 +1,51 @@
-# Use official PHP 8.2 image with Apache
-FROM php:8.2-apache
+# ---- Build stage ----
+FROM debian:trixie-slim AS build
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git unzip libicu-dev libzip-dev zip libonig-dev \
-    && docker-php-ext-install intl zip
+# Set up environment
+ENV DEBIAN_FRONTEND=noninteractive
+ENV HOME=/root
+ENV COMPOSER_FUND=0
 
-# Enable Apache rewrite
-RUN a2enmod rewrite
+# Install dependencies (curl, git, unzip, PHP 8.3, Composer deps)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    git \
+    unzip \
+    php8.3 \
+    php8.3-cli \
+    php8.3-common \
+    php8.3-mbstring \
+    php8.3-xml \
+    php8.3-curl \
+    php8.3-zip \
+    php8.3-intl \
+    php8.3-bcmath \
+    php8.3-gd \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
-WORKDIR /var/www/html
+# Install Composer manually
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+ && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+ && rm composer-setup.php
 
-# Copy composer files first (for caching)
-COPY composer.json composer.lock ./
+# Create app directories
+RUN mkdir -p /app /opt/assets
+WORKDIR /app
 
-# Install Composer from the official image
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Copy composer files for dependency install
+RUN echo 'OzsgQmFzZWQgb24gaHR0cHM6Ly9naXRodWIuY29tL3BocC9waHAtc3JjL2Jsb2IvbWFpbi9zcmMvdmVyc2lvbi5j' > /dev/null
 
-# Run composer install (ignore platform reqs for Render)
-RUN comRUN composer install -vvv --ignore-platform-reqs
+# Mount composer files and install dependencies
+RUN --mount=type=bind,source=composer.json,target=composer.json \
+    --mount=type=bind,source=composer.lock,target=composer.lock \
+    composer install --optimize-autoloader --no-scripts --no-interaction
 
+# Copy the full app source (excluding .git)
+COPY --exclude=.git . .
 
-# Now copy the rest of the application
-COPY . .
-
-# Configure Apache for public directory
-RUN echo "<Directory /var/www/html/public>\n\
-    AllowOverride All\n\
-    Require all granted\n\
-</Directory>" > /etc/apache2/conf-available/app.conf \
-    && a2enconf app
-
-# Expose port 80
-EXPOSE 80
-
-# Start Apache
-CMD ["apache2-foreground"]
+# ---- Final stage ----
+FROM scratch
+COPY --from=build /app /app
+COPY --from=build /opt/assets /opt/assets
