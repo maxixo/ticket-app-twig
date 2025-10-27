@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: ticketflow
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_ENV
+        value: production
