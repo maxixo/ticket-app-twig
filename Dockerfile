@@ -38,4 +38,4 @@ WORKDIR /app
 EXPOSE 8080
 
 # Default command (run PHP's built-in web server)
-CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "public", "router.php"]
