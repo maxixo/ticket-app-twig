@@ -1,71 +1,84 @@
 <?php
 
-require_once '../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
+session_start();
+
+// Create Request object
+$request = Request::createFromGlobals();
+$path = $request->getPathInfo();
+
+// Initialize Twig
 $loader = new FilesystemLoader(__DIR__ . '/../templates');
 $twig = new Environment($loader);
 
-session_start();
+// Route handling
+switch ($path) {
+    // Landing Page
+    case '/':
+        $html = $twig->render('landing.twig');
+        break;
 
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    // Login
+    case '/auth/login':
+        if ($request->getMethod() === 'POST') {
+            $email = $request->request->get('email', '');
+            $password = $request->request->get('password', '');
 
-switch ($uri) {
-  // Landing Page
-  case '/':
-    echo $twig->render('landing.twig');
-    break;
+            if (!empty($email) && !empty($password)) {
+                // Simulate successful login
+                $_SESSION['user'] = $email;
+                $response = new Response('', 302, ['Location' => '/dashboard']);
+                $response->send();
+                exit;
+            } else {
+                $html = $twig->render('login.twig', ['error' => 'Invalid credentials']);
+                break;
+            }
+        } else {
+            $html = $twig->render('login.twig');
+            break;
+        }
 
-  // Login
-  case '/auth/login':
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      $email = $_POST['email'] ?? '';
-      $password = $_POST['password'] ?? '';
+    // Signup
+    case '/auth/signup':
+        $html = $twig->render('signup.twig');
+        break;
 
-      if (!empty($email) && !empty($password)) {
-        // Simulate successful login
-        $_SESSION['user'] = $email;
-        header('Location: /dashboard');
+    // Dashboard
+    case '/dashboard':
+        if (empty($_SESSION['user'])) {
+            $response = new Response('', 302, ['Location' => '/auth/login']);
+            $response->send();
+            exit;
+        }
+        $html = $twig->render('dashboard.twig', ['user' => $_SESSION['user']]);
+        break;
+
+    // Tickets
+    case '/ticketmanagement':
+        $html = $twig->render('ticketmanagement.twig');
+        break;
+
+    // Logout
+    case '/auth/logout':
+        session_destroy();
+        $response = new Response('', 302, ['Location' => '/']);
+        $response->send();
         exit;
-      } else {
-        echo $twig->render('login.twig', ['error' => 'Invalid credentials']);
-      }
-    } else {
-      echo $twig->render('login.twig');
-    }
-    break;
 
-  // Signup
-  case '/auth/signup':
-    echo $twig->render('signup.twig');
-    break;
-
-  // Dashboard
-  case '/dashboard':
-    if (empty($_SESSION['user'])) {
-      header('Location: /auth/login');
-      exit;
-    }
-    echo $twig->render('dashboard.twig', ['user' => $_SESSION['user']]);
-    break;
-
-  // Tickets
-case '/ticketmanagement':
-  echo $twig->render('ticketmanagement.twig');
-  break;
-
-
-  // ✅ Logout Route
-  case '/auth/logout':
-    session_destroy(); // destroy session
-    header('Location: /'); // redirect to landing page
-    exit;
-
-  // 404 - Not Found
-  default:
-    http_response_code(404);
-    echo $twig->render('404.twig');
-    break;
+    // 404 - Not Found
+    default:
+        http_response_code(404);
+        $html = $twig->render('404.twig');
+        break;
 }
+
+// Send final response
+$response = new Response($html);
+$response->send();
