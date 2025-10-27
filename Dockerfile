@@ -3,25 +3,29 @@ FROM php:8.2-apache
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git unzip libicu-dev libzip-dev zip \
+    git unzip libicu-dev libzip-dev zip libonig-dev \
     && docker-php-ext-install intl zip
 
-# Enable Apache mod_rewrite
+# Enable Apache rewrite
 RUN a2enmod rewrite
 
-# Copy project files into the container
-COPY . /var/www/html/
-
 # Set working directory
-WORKDIR /var/www/html/
+WORKDIR /var/www/html
 
-# Install Composer
+# Copy composer files first (for caching)
+COPY composer.json composer.lock ./
+
+# Install Composer from the official image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Run composer install (ignore platform reqs for Render)
+RUN comRUN composer install -vvv --ignore-platform-reqs
 
-# Configure Apache for your app
+
+# Now copy the rest of the application
+COPY . .
+
+# Configure Apache for public directory
 RUN echo "<Directory /var/www/html/public>\n\
     AllowOverride All\n\
     Require all granted\n\
