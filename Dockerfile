@@ -1,5 +1,5 @@
 # ---- Stage 1: Build dependencies ----
-FROM php:8.3-cli-slim AS build
+FROM php:8.3-cli AS build
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -27,7 +27,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 COPY . .
 
 # ---- Stage 2: Runtime image ----
-FROM php:8.3-cli-slim AS runtime
+FROM php:8.3-cli AS runtime
 
 # Copy application files and vendor dependencies
 COPY --from=build /app /app
