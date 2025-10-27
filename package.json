@@ -3,8 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "build": "postcss input.css -o public/css/style.css --minify",
-    "watch": "postcss input.css -o public/css/style.css --watch"
+  "build": "echo 'No CSS build step needed"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
