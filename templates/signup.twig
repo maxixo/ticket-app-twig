@@ -1,0 +1,40 @@
+{% extends "layout.twig" %}
+
+{% block title %}Sign Up - TicketFlow{% endblock %}
+
+{% block content %}
+<div style="min-height:100vh;background:linear-gradient(to bottom right,#2563eb,#7c3aed);display:flex;align-items:center;justify-content:center;padding:2rem;">
+  <div style="background:white;padding:2.5rem;border-radius:1rem;box-shadow:0 10px 20px rgba(0,0,0,0.15);max-width:400px;width:100%;">
+    <h2 style="font-size:1.75rem;font-weight:700;text-align:center;margin-bottom:1.5rem;color:#1f2937;">Create Account</h2>
+    
+    <form method="POST" action="/auth/signup" style="display:flex;flex-direction:column;gap:1rem;">
+      <div>
+        <label style="display:block;font-size:0.875rem;font-weight:600;color:#374151;margin-bottom:0.25rem;">Name</label>
+        <input type="text" name="name" required style="width:100%;padding:0.75rem;border:1px solid #d1d5db;border-radius:0.5rem;">
+        {% if errors.name %}<p style="color:#dc2626;font-size:0.875rem;margin-top:0.25rem;">{{ errors.name }}</p>{% endif %}
+      </div>
+
+      <div>
+        <label style="display:block;font-size:0.875rem;font-weight:600;color:#374151;margin-bottom:0.25rem;">Email</label>
+        <input type="email" name="email" required style="width:100%;padding:0.75rem;border:1px solid #d1d5db;border-radius:0.5rem;">
+        {% if errors.email %}<p style="color:#dc2626;font-size:0.875rem;margin-top:0.25rem;">{{ errors.email }}</p>{% endif %}
+      </div>
+
+      <div>
+        <label style="display:block;font-size:0.875rem;font-weight:600;color:#374151;margin-bottom:0.25rem;">Password</label>
+        <input type="password" name="password" required style="width:100%;padding:0.75rem;border:1px solid #d1d5db;border-radius:0.5rem;">
+        {% if errors.password %}<p style="color:#dc2626;font-size:0.875rem;margin-top:0.25rem;">{{ errors.password }}</p>{% endif %}
+      </div>
+
+      <button type="submit" style="background-color:#2563eb;color:white;padding:0.75rem;border:none;border-radius:0.5rem;font-weight:600;cursor:pointer;">
+        Sign Up
+      </button>
+    </form>
+
+    <p style="text-align:center;margin-top:1rem;color:#4b5563;font-size:0.875rem;">
+      Already have an account? 
+      <a href="/auth/login" style="color:#2563eb;font-weight:600;text-decoration:none;">Login</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "layout.twig" %}
+
+{% block title %}Tickets - TicketFlow{% endblock %}
+
+{% block content %}
+<div style="min-height:100vh;background-color:#f9fafb;">
+  <nav style="background:white;box-shadow:0 1px 3px rgba(0,0,0,0.1);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;">
+    <h1 style="font-size:1.75rem;font-weight:700;color:#2563eb;">TicketFlow</h1>
+    <div style="display:flex;gap:1rem;">
+      <a href="/dashboard" style="color:#374151;font-weight:600;text-decoration:none;">Dashboard</a>
+      <a href="/auth/logout" style="color:#dc2626;font-weight:600;text-decoration:none;">Logout</a>
+    </div>
+  </nav>
+
+  <div style="max-width:1200px;margin:2rem auto;padding:0 1rem;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
+      <h2 style="font-size:2rem;font-weight:700;color:#1f2937;">Ticket Management</h2>
+      <a href="/tickets/create" style="background-color:#2563eb;color:white;padding:0.75rem 1.5rem;border-radius:0.5rem;font-weight:600;text-decoration:none;">+ New Ticket</a>
+    </div>
+
+    {% if tickets %}
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;">
+      {% for ticket in tickets %}
+      <div style="background:white;padding:1.5rem;border-radius:1rem;box-shadow:0 4px 6px rgba(0,0,0,0.08);">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem;">
+          <h3 style="font-size:1.125rem;font-weight:600;color:#1f2937;">{{ ticket.title }}</h3>
+          <span style="padding:0.25rem 0.75rem;border-radius:9999px;font-size:0.75rem;font-weight:600;
+            {% if ticket.status == 'open' %}background-color:#dcfce7;color:#15803d;
+            {% elseif ticket.status == 'in_progress' %}background-color:#fef9c3;color:#a16207;
+            {% else %}background-color:#e5e7eb;color:#374151;{% endif %}">
+            {{ ticket.status|replace({'_':' '}) }}
+          </span>
+        </div>
+
+        <p style="color:#4b5563;font-size:0.875rem;margin-bottom:1rem;">{{ ticket.description ?: 'No description' }}</p>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:0.75rem;color:#6b7280;">Priority: {{ ticket.priority }}</span>
+          <div style="display:flex;gap:0.75rem;">
+            <a href="/tickets/{{ ticket.id }}/edit" style="color:#2563eb;text-decoration:none;font-w
