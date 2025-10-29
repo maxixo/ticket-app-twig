@@ -4,46 +4,64 @@
 
 {% block content %}
 <!-- Hero Section - Full Width -->
-<div style="position: relative; bottom:10px; background: linear-gradient(to bottom right, #2563eb, #7c3aed); color: white; overflow: hidden; width: 100%; margin: 0; padding: 0;">
+<div style="position: relative; background: linear-gradient(to bottom right, #2563eb, #7c3aed); color: white; overflow: hidden;">
   <!-- Navbar -->
-  <nav style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-bottom: 0px solid rgba(255, 255, 255, 0.2); position: sticky; top: 0; margin-bottom:10px; z-index: 50;">
-    <div style="max-width: 1440px; margin: 0 auto; padding:1rem 2rem ; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box;">
-      <h1 style="font-size: 1.75rem; font-weight: 700; color: white; margin: 0;">TicketFlow</h1>
-      <div style="display: flex; gap: 2rem; align-items: center;">
-        <a href="/auth/login" style="color: #ffffffcc; font-weight: 600; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#ffffffcc'">Login</a>
-        <a href="/contact" style="color: #ffffffcc; font-weight: 600; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#ffffffcc'">Contact</a>
-        <a href="/ticket" style="color: #ffffffcc; font-weight: 600; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#ffffffcc'">Tickets</a>
+  <nav style="background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+      <h1 style="font-size: 1.5rem; font-weight: 700; color: #2563eb;">TicketFlow</h1>
+      <div style="display: flex; gap: 1rem;">
+        <a href="/auth/login" 
+           style="color: #2563eb; font-weight: 600; text-decoration: none; transition: color 0.3s;"
+           onmouseover="this.style.color='#1d4ed8';"
+           onmouseout="this.style.color='#2563eb';">
+          Login
+        </a>
+        <a href="/contact" 
+           style="color: #2563eb; font-weight: 600; text-decoration: none; transition: color 0.3s;"
+           onmouseover="this.style.color='#1d4ed8';"
+           onmouseout="this.style.color='#2563eb';">
+          Contact
+        </a>
+        <a href="/tickets" 
+           style="color: #2563eb; font-weight: 600; text-decoration: none; transition: color 0.3s;"
+           onmouseover="this.style.color='#1d4ed8';"
+           onmouseout="this.style.color='#2563eb';">
+          Tickets
+        </a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <div style="max-width: 1440px; margin: 0 auto; padding: 8rem 1rem; position: relative; z-index: 10; text-align: center; box-sizing: border-box;">
-    <h1 style="font-size: 3rem; font-weight: bold; margin-bottom: 1rem;">TicketFlow</h1>
-    <p style="font-size: 1.25rem; margin-bottom: 2rem; max-width: 42rem; margin-left: auto; margin-right: auto;">
-      Streamline your support workflow with our powerful ticket management system
-    </p>
-    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-      <a href="/auth/login" style="background-color: white; color: #2563eb; padding: 0.75rem 2rem; border-radius: 0.5rem; font-weight: 600; text-decoration: none; display: inline-block; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#f3f4f6'" onmouseout="this.style.backgroundColor='white'">
-        Login
-      </a>
-      <a href="/auth/signup" style="background-color: transparent; border: 2px solid white; color: white; padding: 0.75rem 2rem; border-radius: 0.5rem; font-weight: 600; text-decoration: none; display: inline-block; transition: background-color 0.3s, color 0.3s;" onmouseover="this.style.backgroundColor='white'; this.style.color='#2563eb'" onmouseout="this.style.backgroundColor='transparent'; this.style.color='white'">
-        Get Started
-      </a>
+    <div style="max-width: 1440px; margin: 0 auto; padding: 8rem 1rem; position: relative; z-index: 10;">
+        <div style="text-align: center;">
+            <h1 style="font-size: 3rem; font-weight: bold; margin-bottom: 1rem;">TicketFlow</h1>
+            <p style="font-size: 1.25rem; margin-bottom: 2rem; max-width: 42rem; margin-left: auto; margin-right: auto;">
+                Streamline your support workflow with our powerful ticket management system
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="/auth/login" style="background-color: white; color: #2563eb; padding: 0.75rem 2rem; border-radius: 0.5rem; font-weight: 600; text-decoration: none; display: inline-block; transition: background-color 0.3s;"
+                   onmouseover="this.style.backgroundColor='#f3f4f6';"
+                   onmouseout="this.style.backgroundColor='white';">
+                    Login
+                </a>
+                <a href="/auth/signup" style="background-color: transparent; border: 2px solid white; color: white; padding: 0.75rem 2rem; border-radius: 0.5rem; font-weight: 600; text-decoration: none; display: inline-block; transition: all 0.3s;"
+                   onmouseover="this.style.backgroundColor='rgba(255,255,255,0.1)';"
+                   onmouseout="this.style.backgroundColor='transparent';">
+                    Get Started
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <!-- Decorative Circle -->
-  <div style="position: absolute; top: 8rem; right: 2.5rem; width: 16rem; height: 16rem; background-color: rgba(255, 255, 255, 0.1); border-radius: 50%;"></div>
-
-  <!-- Wavy Bottom -->
-  <svg style="position: absolute; bottom: 0; width: 100%; display: block;" viewBox="0 0 1440 120" preserveAspectRatio="none">
-    <path d="M0,64 C480,120 960,0 1440,64 L1440,120 L0,120 Z" fill="#f9fafb"></path>
-  </svg>
+    
+    <!-- Decorative Circle -->
+    <div style="position: absolute; top: 8rem; right: 2.5rem; width: 16rem; height: 16rem; background-color: rgba(255, 255, 255, 0.1); border-radius: 9999px;"></div>
+    
+    <!-- Wavy Bottom -->
+    <svg style="position: absolute; bottom: 0; width: 100%; display: block;" viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path d="M0,64 C480,120 960,0 1440,64 L1440,120 L0,120 Z" fill="#f9fafb"></path>
+    </svg>
 </div>
->
 
-<!-- Features Section - Full Width with Gray Background -->
 <!-- Features Section - Full Width with Gray Background -->
 <div style="background-color: #f9fafb; padding: 4rem 0;">
   <div style="max-width: 1280px; margin: 0 auto; padding: 0 1rem;">
@@ -54,21 +72,27 @@
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
       
       <!-- Feature 1 -->
-      <div style="background-color: white; padding: 2rem 1.75rem; border-radius: 0.75rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
+      <div style="background-color: white; padding: 2rem 1.75rem; border-radius: 0.75rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center; transition: transform 0.3s;"
+           onmouseover="this.style.transform='translateY(-5px)';"
+           onmouseout="this.style.transform='translateY(0)';">
         <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🎯</div>
         <h3 style="font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">Easy Management</h3>
         <p style="color: #4b5563; font-size: 1rem;">Create, update, and track tickets effortlessly.</p>
       </div>
 
       <!-- Feature 2 -->
-      <div style="background-color: white; padding: 2rem 1.75rem; border-radius: 0.75rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
+      <div style="background-color: white; padding: 2rem 1.75rem; border-radius: 0.75rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center; transition: transform 0.3s;"
+           onmouseover="this.style.transform='translateY(-5px)';"
+           onmouseout="this.style.transform='translateY(0)';">
         <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">⚡</div>
         <h3 style="font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">Real-time Updates</h3>
         <p style="color: #4b5563; font-size: 1rem;">Stay informed with instant status changes.</p>
       </div>
 
       <!-- Feature 3 -->
-      <div style="background-color: white; padding: 2rem 1.75rem; border-radius: 0.75rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
+      <div style="background-color: white; padding: 2rem 1.75rem; border-radius: 0.75rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center; transition: transform 0.3s;"
+           onmouseover="this.style.transform='translateY(-5px)';"
+           onmouseout="this.style.transform='translateY(0)';">
         <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔒</div>
         <h3 style="font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">Secure & Reliable</h3>
         <p style="color: #4b5563; font-size: 1rem;">Your data is protected with enterprise-grade security.</p>
@@ -76,10 +100,6 @@
 
     </div>
   </div>
-</div>
-
-    <!-- Decorative Circle -->
-    <div style="position: absolute; bottom: -28rem; left: 2.5rem; width: 12rem; height: 12rem; background-color: rgba(196, 181, 253, 0.3); border-radius: 9999px; z-index: 1;"></div>
 </div>
 
 <!-- Footer - Full Width -->
