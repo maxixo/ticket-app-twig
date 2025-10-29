@@ -43,7 +43,12 @@
       onmouseout="this.style.color='#2563eb';">
       ✏️ Edit
     </a>    
-     <a href="/tickets/{{ ticket.id }}/delete" style="color:#dc2626;text-decoration:none;font-weight:600;" onclick="return confirm('Delete this ticket?');">🗑️ Delete</a>
+   <a href="/tickets/delete/{{ ticket.id }}" 
+   style="color:#dc2626;font-weight:600;text-decoration:none;"
+   onmouseover="this.style.color='#b91c1c';"
+   onmouseout="this.style.color='#dc2626';">
+   🗑️ Delete
+</a>
           </div>
         </div>
       </div>

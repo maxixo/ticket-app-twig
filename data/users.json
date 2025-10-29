@@ -1,0 +1,19 @@
+{
+    "minhtxo7@gmail.com": {
+        "name": "John Annes",
+        "email": "minhtxo7@gmail.com",
+        "password": "$2y$10$WW0cxJ.MPDGUDzu\/nV.P1.0lid4jIaKf.NlwVKu8gGfRhYvnt12.C"
+    },
+    "oshodiusman@yahoo.com": {
+        "name": "max",
+        "email": "oshodiusman@yahoo.com",
+        "password": "$2y$10$OlVck7nOc.L5H60YI0KaEe0pVuZFIkWaSr.ezZiCGC8MoYcXZbgxe",
+        "created_at": "2025-10-29 20:59:56"
+    },
+    "oyinoshodi@gmail.com": {
+        "name": "max",
+        "email": "oyinoshodi@gmail.com",
+        "password": "$2y$10$x0p8rmhvpBjblxFpP4sbFe.2lweuYp81ofa3Wj7QmO7zwrYOhQqyK",
+        "created_at": "2025-10-29 21:01:48"
+    }
+}
